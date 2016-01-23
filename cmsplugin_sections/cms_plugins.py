@@ -33,21 +33,22 @@ class SectionContainerPlugin(CMSPluginBase):
 
         children = []
 
-        for i, child in enumerate(instance.child_plugin_instances):
-            prev_child = None
-            next_child = None
+        if instance.child_plugin_instances is not None:
+            for i, child in enumerate(instance.child_plugin_instances):
+                prev_child = None
+                next_child = None
 
-            if i > 0:
-                prev_child = instance.child_plugin_instances[i-1]
+                if i > 0:
+                    prev_child = instance.child_plugin_instances[i-1]
 
-            if i < len(instance.child_plugin_instances) - 1:
-                next_child = instance.child_plugin_instances[i+1]
+                if i < len(instance.child_plugin_instances) - 1:
+                    next_child = instance.child_plugin_instances[i+1]
 
-            children.append({
-                'prev': prev_child,
-                'child': child,
-                'next': next_child,
-            })
+                children.append({
+                    'prev': prev_child,
+                    'child': child,
+                    'next': next_child,
+                })
 
         return children
 
@@ -55,9 +56,10 @@ class SectionContainerPlugin(CMSPluginBase):
 
         section_menu_items = []
 
-        for child in instance.child_plugin_instances:
-            if child.show_in_menu:
-                section_menu_items.append(child)
+        if instance.child_plugin_instances is not None:
+            for child in instance.child_plugin_instances:
+                if child.show_in_menu:
+                    section_menu_items.append(child)
 
         context['children'] = self.get_children(instance)
         context['sections'] = section_menu_items
