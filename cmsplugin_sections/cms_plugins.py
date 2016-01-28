@@ -5,6 +5,7 @@ from __future__ import unicode_literals
 from cms.models import CMSPlugin
 from cms.plugin_pool import plugin_pool
 from cms.plugin_base import CMSPluginBase
+from django.conf import settings
 
 from .models import SectionBasePluginModel
 
@@ -17,7 +18,9 @@ class SectionContainerPlugin(CMSPluginBase):
     allow_children = True
     cache = True
     # TODO: Complete this, or set it in settings.
-    # child_classes = ['...']
+    # Is anything wrong with just allowing SectionPlugins here?
+    # Other section plugin subclasses should be 
+    child_classes = getattr(settings, 'CMSPLUGIN_SECTIONS_CONTAINER_CHILD_CLASSES', ['SectionPlugin', ])
     model = CMSPlugin
     module = 'Sections'
     name = 'Section Container'
